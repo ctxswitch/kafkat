@@ -1,0 +1,25 @@
+
+version: 2
+jobs:
+  build:
+    # TODO: Need a good way to test multiple versions
+    docker:
+      - image: circleci/ruby:2.5.3
+
+    working_directory: ~/repo
+    # TODO: Figure out how to handle dependency caching
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+      # TODO: Add me in when the style updates are merged
+      # - run:
+      #     name: style check
+      #     command: |
+      #       bundle exec rubocop
+      - run:
+          name: run tests
+          command: |
+            bundle exec rake test
