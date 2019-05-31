@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module Kafkat
   module Formatting
-    def justify(field, width=2)
+    def justify(field, width = 2)
       field = field.to_s
       count = [width - (field.length / 8), 1].max
       field + "\t" * count

@@ -1,4 +1,5 @@
+# frozen_string_literal: true
+
 module Kafkat
-  class Assignment < Struct.new(:topic_name, :partition_id, :replicas)
-  end
+  Assignment = Struct.new(:topic_name, :partition_id, :replicas)
 end

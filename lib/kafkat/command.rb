@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Kafkat
   module Command
     class NotFoundError < StandardError; end
@@ -8,7 +10,8 @@ module Kafkat
 
     def self.get(name)
       klass = all[name.downcase]
-      raise NotFoundError if !klass
+      raise NotFoundError unless klass
+
       klass
     end
 
@@ -66,5 +69,5 @@ module Kafkat
 end
 
 # Require all of the commands.
-command_glob = File.expand_path("../command/*.rb", __FILE__)
+command_glob = File.expand_path('command/*.rb', __dir__)
 Dir[command_glob].each { |f| require f }
