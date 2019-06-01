@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/ctxswitch/kafkat.png?branch=master)](https://travis-ci.org/ctxswitch/kafkat)
 [![Coverage Status](https://coveralls.io/repos/github/ctxswitch/kafkat/badge.svg?branch=master)](https://coveralls.io/github/ctxswitch/kafkat?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/7fb0ef80004b68e1373c/maintainability)](https://codeclimate.com/github/ctxswitch/kafkat/maintainability)
 
 kafkat
 ======
