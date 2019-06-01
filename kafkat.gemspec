@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'zk', '~> 1.9', '>= 1.9.4'
 
   s.add_development_dependency 'activesupport', '>= 2', '< 5'
+  s.add_development_dependency 'coveralls'
   s.add_development_dependency 'factory_bot', '~> 5.0.0'
   s.add_development_dependency 'rake', '<= 10.5.0'
   s.add_development_dependency 'rspec', '~> 3.2.0'
