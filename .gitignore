@@ -7,3 +7,4 @@ Gemfile.lock
 reports
 .rakeTasks
 vendor
+.rubocop-*-yml
