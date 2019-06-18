@@ -1,11 +1,21 @@
 # frozen_string_literal: true
 module Kafkat
   module Command
-    class Drain < Base
-      register_as 'drain'
+    class BrokerDrain < Base
+      register_as 'broker_drain'
+      deprecated 'drain'
+      banner 'broker drain BROKER'
+      description 'Drain topics from a broker'
 
-      usage 'drain <broker id> [--topic <t>] [--brokers <ids>]',
-            'Reassign partitions from a specific broker to destination brokers.'
+      option :topic,
+        short: '-T',
+        long: '--topic TOPIC',
+        description: 'The topic to reassign (empty for all)'
+
+      option :brokers,
+        short: '-B',
+        long: '--brokers BROKERS',
+        description: 'The destination brokers for the topic'
 
       # For each partition (of specified topic) on the source broker, the command is to
       # assign the partition to one of the destination brokers that does not already have
@@ -18,22 +28,17 @@ module Kafkat
       # a hash table with broker id as key and number of partitions as value. The hash table
       # will be updated along with assignment.
       def run
-        source_broker = ARGV[0] && ARGV.shift.to_i
+        source_broker = arguments.last
         if source_broker.nil?
           puts 'You must specify a broker ID.'
           exit 1
         end
 
-        opts = Optimist.options do
-          opt :brokers, 'destination broker IDs', type: :string
-          opt :topic,   'topic name to reassign', type: :string
-        end
-
-        topic_name = opts[:topic]
+        topic_name = config[:topic]
         topics = topic_name && zookeeper.topics([topic_name])
         topics ||= zookeeper.topics
 
-        destination_brokers = opts[:brokers]&.split(',')&.map(&:to_i)
+        destination_brokers = config[:brokers]&.split(',')&.map(&:to_i)
         destination_brokers ||= zookeeper.brokers.values.map(&:id)
         destination_brokers.delete(source_broker)
 

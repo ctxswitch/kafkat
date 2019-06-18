@@ -9,8 +9,8 @@ module Kafkat
 
       attr_reader :zk_path
 
-      def initialize(config)
-        @zk_path = config.zk_path
+      def initialize
+        @zk_path = Kafkat::Config.zk_path
       end
 
       def broker_ids

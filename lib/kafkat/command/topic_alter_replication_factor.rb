@@ -16,25 +16,30 @@ module Kafkat
     #
     #
     class SetReplicationFactor < Base
-      register_as 'set-replication-factor'
+      register_as 'topic_alter_replication_factor'
+      deprecated 'set-replication-factor'
+      banner 'topic alter replication-factor'
+      description 'Set the replication factor of a topic'
 
-      usage 'set-replication-factor [topic] [--newrf <n>] [--brokers id[,id]]',
-            'Set the replication factor of'
+      option :replicas,
+        short: '-R',
+        long: '--replicas NUM',
+        description: 'The number of replicas'
+
+      option :brokers,
+        short: '-B',
+        long: '--brokers BROKERS',
+        description: 'The destination brokers for alter'
 
       def run
-        topic_name = ARGV.shift unless ARGV[0]&.start_with?('--')
-
+        topic_name = arguments.last
+        
         all_brokers = zookeeper.brokers
         topics = topic_name && zookeeper.topics([topic_name])
         topics ||= zookeeper.topics
 
-        opts = Optimist.options do
-          opt :brokers, 'the comma-separated list of broker the new partitions must be assigned to', type: :string
-          opt :newrf, 'the new replication factor', type: :integer, required: true
-        end
-
-        broker_ids = opts[:brokers]&.split(',')&.map(&:to_i)
-        new_rf = opts[:newrf]
+        broker_ids = config[:brokers]&.split(',')&.map(&:to_i)
+        new_rf = config[:replicas]
 
         if new_rf < 1
           puts 'ERROR: replication factor is smaller than 1'

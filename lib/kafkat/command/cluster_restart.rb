@@ -3,12 +3,12 @@
 module Kafkat
   module Command
     class ClusterRestart < Base
-      register_as 'cluster-restart'
-
-      usage 'cluster-restart help', 'Determine the server restart sequence for kafka'
+      register_as 'cluster_restart'
+      banner 'cluster restart'
+      description 'Determine the server restart sequence for kafka'
 
       def run
-        subcommand_name = ARGV.shift || 'help'
+        subcommand_name = arguments.last || 'help'
         begin
           subcommand_class = ['Kafkat', 'ClusterRestart', 'Subcommands', subcommand_name.capitalize].inject(Object) do |mod, class_name|
             mod.const_get(class_name)
@@ -27,13 +27,13 @@ module Kafkat
     module Subcommands
       class Help < ::Kafkat::Command::Base
         def run
-          puts 'cluster-restart help                Print Help and exit'
-          puts 'cluster-restart reset               Clean up the restart state'
-          puts 'cluster-restart start               Initialize the cluster-restart session for the cluster'
-          puts 'cluster-restart next                Calculate the next broker to restart based on the current state'
-          puts 'cluster-restart good <broker>       Mark this broker as successfully restarted'
-          puts 'cluster-restart log                 Print the state of the brokers'
-          puts 'cluster-restart restore <file>      Start a new session and restore the state defined in that file'
+          puts 'cluster restart help                Print Help and exit'
+          puts 'cluster restart reset               Clean up the restart state'
+          puts 'cluster restart start               Initialize the cluster-restart session for the cluster'
+          puts 'cluster restart next                Calculate the next broker to restart based on the current state'
+          puts 'cluster restart good <broker>       Mark this broker as successfully restarted'
+          puts 'cluster restart log                 Print the state of the brokers'
+          puts 'cluster restart restore <file>      Start a new session and restore the state defined in that file'
         end
       end
 

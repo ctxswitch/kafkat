@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 module Kafkat
   module Command
-    class Topics < Base
-      register_as 'topics'
-
-      usage 'topics',
-            'Print all topics.'
+    class TopicList < Base
+      register_as 'topic_list'
+      deprecated 'topics'
+      banner 'topic list'
+      description 'List all topics.'
 
       def run
         topic_names = zookeeper.topic_names

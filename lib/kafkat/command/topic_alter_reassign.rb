@@ -1,15 +1,24 @@
 # frozen_string_literal: true
 module Kafkat
   module Command
-    class Reassign < Base
-      register_as 'reassign'
+    class TopicAlterReassign < Base
+      register_as 'topic_alter_reassign'
+      deprecated 'reassign'
+      banner 'topic alter reassign TOPIC'
+      description 'Begin reassignment of partitions.'
 
-      usage 'reassign [topics] [--brokers <ids>] [--replicas <n>]',
-            'Begin reassignment of partitions.'
+      option :replicas,
+        short: '-R',
+        long: '--replicas NUM',
+        description: 'The number of replicas'
+
+      option :brokers,
+        short: '-B',
+        long: '--brokers BROKERS',
+        description: 'The destination brokers for alter'
 
       def run
-        topic_names = ARGV.shift unless ARGV[0]&.start_with?('--')
-
+        topic_names = arguments.last
         all_brokers = zookeeper.brokers
 
         topics = nil
@@ -19,13 +28,8 @@ module Kafkat
         end
         topics ||= zookeeper.topics
 
-        opts = Optimist.options do
-          opt :brokers, 'replica set (broker IDs)', type: :string
-          opt :replicas, 'number of replicas (count)', type: :integer
-        end
-
-        broker_ids = opts[:brokers]&.split(',')&.map(&:to_i)
-        replica_count = opts[:replicas]
+        broker_ids = config[:brokers]&.split(',')&.map(&:to_i)
+        replica_count = config[:replicas]
 
         broker_ids ||= zookeeper.brokers.values.map(&:id)
 

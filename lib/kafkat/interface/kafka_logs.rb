@@ -9,8 +9,8 @@ module Kafkat
 
       attr_reader :log_path
 
-      def initialize(config)
-        @log_path = config.log_path
+      def initialize
+        @log_path = Kafkat::Config.log_path
       end
 
       def clean_indexes!
