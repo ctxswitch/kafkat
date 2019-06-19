@@ -4,7 +4,7 @@ module Kafkat
     class TopicElect < Base
       register_as 'topic_elect'
       deprecated 'elect-leaders'
-      banner 'topic elect TOPIC'
+      banner 'kafkat topic elect TOPIC'
       description 'Begin election of the preferred leaders.'
 
       def run

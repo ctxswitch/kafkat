@@ -2,4 +2,4 @@
 # frozen_string_literal: true
 
 require 'kafkat'
-Kafkat::CLI.run!
+Kafkat::CLI.run!(ARGV)

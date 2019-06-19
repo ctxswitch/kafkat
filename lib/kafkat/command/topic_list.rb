@@ -4,7 +4,7 @@ module Kafkat
     class TopicList < Base
       register_as 'topic_list'
       deprecated 'topics'
-      banner 'topic list'
+      banner 'kafkat topic list'
       description 'List all topics.'
 
       def run

@@ -19,6 +19,10 @@ module Kafkat
       @all ||= {}
     end
 
+    def self.description
+      @description ||= []
+    end
+
     def self.get(name)
       klass = all[name.downcase]
       raise NotFoundError unless klass
@@ -28,13 +32,12 @@ module Kafkat
 
     def self.list_commands
       category.keys.sort.each do |cg|
-        puts "**** #{cg.upcase} COMMANDS ***"
+        puts "-- #{cg.upcase} COMMANDS --"
         category[cg].sort.each do |cmd|
           puts get(cmd).banner
         end
         puts
       end
-      puts "Use '--help' with any of the commands to see...\n"
       nil
     end
 
@@ -50,14 +53,13 @@ module Kafkat
 
     class Base
       include Mixlib::CLI
-
       include Formatting
       include CommandIO
       include Kafkat::Logging
 
       attr_reader :config
 
-      MERGEABLE_ARGS = [:zk_path, :log_path, :kafka_path]
+      banner 'kafkat SUB-COMMAND (options)'
 
       option :help,
         short: "-h",
@@ -88,30 +90,7 @@ module Kafkat
         long: '--kafka-path PATH',
         description: 'Where kafka has been installed.'
 
-      def initialize
-        super
-        parse_options
-
-        if config[:config_file]
-          Config.load_file!(config[:config_file])
-        else
-          Config.load!
-        end
-        mergeable_options = config.select do |key, value|
-          MERGEABLE_ARGS.include?(key) && !value.nil?
-        end
-        Config.merge!(mergeable_options)
-
-      rescue JSON::ParserError => e
-        puts "Could not parse configuration file: #{e}"
-        exit 1
-      rescue Mixlib::Config::UnknownConfigOptionError => e
-        puts "Invalid configuration file: #{e}"
-        exit 1
-      end
-
       def self.register_as(name)
-        # I really want to get rid of this, but keeping it in for a little longer
         s = name.split('_')
         Command.category[s.first] << name
         Command.all[name] = self
@@ -123,7 +102,7 @@ module Kafkat
       end
 
       def self.description(desc)
-        @description = desc
+        Command.description << desc
       end
 
       def invoked_as(name)
@@ -132,19 +111,21 @@ module Kafkat
 
       def command_name
         @command_name ||= self.class.name.split('::').last
-          .gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2')
-          .gsub(/([a-z\d])([A-Z])/,'\1_\2')
+          .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
+          .gsub(/([a-z\d])([A-Z])/, '\1_\2')
           .downcase
       end
 
       def self.command_name
         @command_name ||= name.split('::').last
-          .gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2')
-          .gsub(/([a-z\d])([A-Z])/,'\1_\2')
+          .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
+          .gsub(/([a-z\d])([A-Z])/, '\1_\2')
           .downcase
       end
 
       def print_help_and_exit(exitcode = 0)
+        puts "kafkat #{VERSION}: Simplified command-line administration for Kafka brokers\n\n"
+
         begin
           parse_options
         rescue OptionParser::InvalidOption => e
@@ -153,6 +134,13 @@ module Kafkat
           puts "#{e}\n"
         end
         puts "#{opt_parser}\n"
+        puts "Available subcommands: (for details, kafkat SUB-COMMAND --help)\n\n"
+        Command.list_commands
+        exit exitcode
+      end
+
+      def print_error_and_exit(msg, exitcode = 0)
+        puts "#{msg}\n"
         exit exitcode
       end
 

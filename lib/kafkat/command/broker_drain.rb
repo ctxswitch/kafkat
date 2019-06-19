@@ -4,7 +4,7 @@ module Kafkat
     class BrokerDrain < Base
       register_as 'broker_drain'
       deprecated 'drain'
-      banner 'broker drain BROKER'
+      banner 'kafkat broker drain BROKER'
       description 'Drain topics from a broker'
 
       option :topic,

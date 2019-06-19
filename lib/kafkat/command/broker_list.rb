@@ -5,7 +5,7 @@ module Kafkat
       register_as 'broker_list'
       deprecated 'brokers'
       deprecated 'controller'
-      banner 'broker list'
+      banner 'kafkat broker list'
       description 'List all of the brokers.'
 
       def run

@@ -4,7 +4,7 @@ module Kafkat
     class TopicDescribe < Base
       register_as 'topic_describe'
       deprecated 'partitions'
-      banner 'topic describe TOPIC'
+      banner 'kafkat topic describe TOPIC'
       description 'Print information about the given topic.'
 
       option :under_replicated,

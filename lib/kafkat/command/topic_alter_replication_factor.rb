@@ -18,7 +18,7 @@ module Kafkat
     class SetReplicationFactor < Base
       register_as 'topic_alter_replication_factor'
       deprecated 'set-replication-factor'
-      banner 'topic alter replication-factor'
+      banner 'kafkat topic alter replication-factor TOPIC'
       description 'Set the replication factor of a topic'
 
       option :replicas,
@@ -33,7 +33,6 @@ module Kafkat
 
       def run
         topic_name = arguments.last
-        
         all_brokers = zookeeper.brokers
         topics = topic_name && zookeeper.topics([topic_name])
         topics ||= zookeeper.topics
