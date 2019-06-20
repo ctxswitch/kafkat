@@ -2,9 +2,10 @@
 module Kafkat
   module Command
     class BrokerList < Base
-      register_as 'broker_list'
-      deprecated 'brokers'
-      deprecated 'controller'
+      register_as 'broker_list',
+        deprecated: %w(brokers controller)
+      # deprecated 'brokers'
+      # deprecated 'controller'
       banner 'kafkat broker list'
       description 'List all of the brokers.'
 

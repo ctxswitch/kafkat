@@ -7,41 +7,56 @@ module Kafkat
     class InvalidCommand < StandardError; end
     class InvalidArgument < StandardError; end
 
-    def self.category
-      @category ||= Hash.new { |hash, key| hash[key] = [] }
+    def self.categories
+      registered.uniq { |h| h[:category] }
+        .map { |h| h[:category] }
     end
 
-    def self.deprecated
-      @deprecated ||= {}
+    def self.get_by_category(category)
+      commands = registered.select { |h| h[:category] == category }
+        .map { |h| h[:command] }
+      raise NotFoundError if commands.empty?
+
+      commands
     end
 
-    def self.all
-      @all ||= {}
+    def self.get(name)
+      commands = registered.select { |h| h[:id] == name.downcase || h[:deprecated].include?(name) }
+        .map { |h| h[:command] }
+      raise NotFoundError if commands.empty?
+
+      commands.first
+    end
+
+    def self.registered
+      @registered ||= []
+    end
+
+    def self.include?(name)
+      registered.map { |h| h[:id] }.include?(name)
+    end
+
+    def self.deprecated?(name)
+      @deprecated ||= registered.map { |h| h[:deprecated] }.flatten
+      @deprecated.include?(name)
+    end
+
+    def self.reset
+      @registered = nil
     end
 
     def self.description
       @description ||= []
     end
 
-    def self.get(name)
-      klass = all[name.downcase]
-      raise NotFoundError unless klass
+    def self.subcommand_category(name)
+      category_name = name&.tr('-', '_')
+      return nil unless categories.include?(category_name)
 
-      klass
+      get_by_category(category_name)
     end
 
-    def self.list_commands
-      category.keys.sort.each do |cg|
-        puts "-- #{cg.upcase} COMMANDS --"
-        category[cg].sort.each do |cmd|
-          puts get(cmd).banner
-        end
-        puts
-      end
-      nil
-    end
-
-    def self.load_all(force = false)
+    def self.load!(force = false)
       return true if @loaded && !force
       files = Dir[File.expand_path('../command', __FILE__) + '/*.rb']
       files.each do |path|
@@ -58,6 +73,10 @@ module Kafkat
       include Kafkat::Logging
 
       attr_reader :config
+
+      class << self
+        attr_reader :command_name
+      end
 
       banner 'kafkat SUB-COMMAND (options)'
 
@@ -90,52 +109,44 @@ module Kafkat
         long: '--kafka-path PATH',
         description: 'Where kafka has been installed.'
 
-      def self.register_as(name)
+      def self.register_as(name, deprecated: [])
+        @command_name = name
         s = name.split('_')
-        Command.category[s.first] << name
-        Command.all[name] = self
-      end
 
-      def self.deprecated(name)
-        Command.deprecated[name] = command_name
-        Command.all[name] = self
+        deprecated = deprecated.is_a?(Array) ? deprecated : [deprecated]
+        Command.registered << {
+          category: s.first,
+          command: self,
+          id: name,
+          deprecated: deprecated,
+        }
       end
 
       def self.description(desc)
         Command.description << desc
       end
 
-      def invoked_as(name)
-        @invoked_name = name
-      end
-
-      def command_name
-        @command_name ||= self.class.name.split('::').last
-          .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
-          .gsub(/([a-z\d])([A-Z])/, '\1_\2')
-          .downcase
-      end
-
-      def self.command_name
-        @command_name ||= name.split('::').last
-          .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
-          .gsub(/([a-z\d])([A-Z])/, '\1_\2')
-          .downcase
-      end
-
-      def print_help_and_exit(exitcode = 0)
-        puts "kafkat #{VERSION}: Simplified command-line administration for Kafka brokers\n\n"
-
-        begin
-          parse_options
-        rescue OptionParser::InvalidOption => e
-          puts "#{e}\n"
-        rescue OptionParser::MissingArgument => e
-          puts "#{e}\n"
+      def print_category_banners(category)
+        puts "-- #{category.upcase} COMMANDS --"
+        Command.get_by_category(category).sort_by(&:command_name).each do |cmd|
+          puts cmd.banner
         end
+        puts
+      end
+
+      def print_help_and_exit(exitcode = 0, category: nil)
+        puts "kafkat #{VERSION}: Simplified command-line administration for Kafka brokers\n\n"
         puts "#{opt_parser}\n"
         puts "Available subcommands: (for details, kafkat SUB-COMMAND --help)\n\n"
-        Command.list_commands
+
+        if category.nil?
+          Command.categories.sort.each do |cg|
+            print_category_banners(cg)
+          end
+        else
+          print_category_banners(category)
+        end
+
         exit exitcode
       end
 
@@ -149,11 +160,7 @@ module Kafkat
       end
 
       def arguments
-        args = cli_arguments.dup
-        # There's a bunch of this logic that can go away after the deprecated
-        # commands are removed.
-        args.shift(@invoked_name.split('_').size)
-        args
+        cli_arguments.dup
       end
 
       def admin

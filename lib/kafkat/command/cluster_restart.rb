@@ -8,27 +8,15 @@ module Kafkat
       banner 'kafkat cluster restart'
       description 'Determine the server restart sequence for kafka'
 
+      VALID_COMMANDS = %w(reset start next good log restore help)
+
       def run
         subcommand_name = arguments.first || 'help'
-        begin
-          case subcommand_name
-          when 'reset'
-            run_reset
-          when 'start'
-            run_start
-          when 'next'
-            run_next
-          when 'good'
-            run_good(arguments.last)
-          when 'log'
-            run_log
-          when 'restore'
-            run_restore(arguments.last)
-          else
-            run_help
-          end
-        rescue NameError
+        if VALID_COMMANDS.include?(subcommand_name)
+          send(:"run_#{subcommand_name}")
+        else
           print "ERROR: Unknown command #{subcommand_name}"
+          run_help
         end
       end
 
@@ -63,7 +51,8 @@ module Kafkat
         puts "\n[Action] Please run 'start' to start the session"
       end
 
-      def run_restore(file_name)
+      def run_restore
+        file_name = arguments.last
         if Session.exists?
           puts 'ERROR: A session is already started'
           puts "\n[Action] Please run 'next' or 'reset' commands"
@@ -117,7 +106,8 @@ module Kafkat
         puts JSON.pretty_generate(@session.to_h)
       end
 
-      def run_good(broker_id)
+      def run_good
+        broker_id = arguments.last
         unless Session.exists?
           puts 'ERROR: no session in progress'
           puts "\n[Action] Please run 'start' command"

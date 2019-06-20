@@ -2,8 +2,7 @@
 module Kafkat
   module Command
     class BrokerResign < Base
-      register_as 'broker_resign'
-      deprecated 'resign-rewrite'
+      register_as 'broker_resign', deprecated: 'resign-rewrite'
       banner 'kafkat broker resign BROKER'
       description 'Shutdown a broker'
 

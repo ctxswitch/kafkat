@@ -2,8 +2,7 @@
 module Kafkat
   module Command
     class TopicAlterReassign < Base
-      register_as 'topic_alter_reassign'
-      deprecated 'reassign'
+      register_as 'topic_alter_reassign', deprecated: 'reassign'
       banner 'kafkat topic alter reassign TOPIC'
       description 'Begin reassignment of partitions.'
 

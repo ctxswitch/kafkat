@@ -2,8 +2,7 @@
 module Kafkat
   module Command
     class TopicList < Base
-      register_as 'topic_list'
-      deprecated 'topics'
+      register_as 'topic_list', deprecated: 'topics'
       banner 'kafkat topic list'
       description 'List all topics.'
 

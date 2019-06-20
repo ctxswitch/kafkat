@@ -2,8 +2,7 @@
 module Kafkat
   module Command
     class BrokerClean < Base
-      register_as 'broker_clean'
-      deprecated 'clean-indexes'
+      register_as 'broker_clean', deprecated: 'clean-indexes'
       banner 'kafkat broker clean'
       description 'Delete untruncated Kafka log indexes from the filesystem.'
 

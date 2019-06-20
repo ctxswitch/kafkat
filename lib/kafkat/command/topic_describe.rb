@@ -2,8 +2,7 @@
 module Kafkat
   module Command
     class TopicDescribe < Base
-      register_as 'topic_describe'
-      deprecated 'partitions'
+      register_as 'topic_describe', deprecated: 'partitions'
       banner 'kafkat topic describe TOPIC'
       description 'Print information about the given topic.'
 

@@ -16,8 +16,7 @@ module Kafkat
     #
     #
     class SetReplicationFactor < Base
-      register_as 'topic_alter_replication_factor'
-      deprecated 'set-replication-factor'
+      register_as 'topic_alter_replication_factor', deprecated: 'set-replication-factor'
       banner 'kafkat topic alter replication-factor TOPIC'
       description 'Set the replication factor of a topic'
 

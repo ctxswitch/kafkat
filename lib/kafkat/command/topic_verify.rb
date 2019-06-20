@@ -2,8 +2,7 @@
 module Kafkat
   module Command
     class TopicVerify < Base
-      register_as 'topic_verify'
-      deprecated 'verify-replicas'
+      register_as 'topic_verify', deprecated: 'verify-replicas'
       banner 'kafkat topic verify'
       description 'Check if all partitions in a topic have same number of replicas.'
 
