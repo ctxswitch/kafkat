@@ -1,0 +1,15 @@
+require:
+  - rubocop-airbnb
+
+Layout/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+  SupportedStyles:
+  - with_first_parameter
+  - with_fixed_indentation
+  IndentationWidth:
+
+Layout/DotPosition:
+  EnforcedStyle: leading
+  SupportedStyles:
+  - leading
+  - trailing
