@@ -39,9 +39,9 @@ gem install kafkat
 
 Kafkat searches for this file in multiple places in the following order:
 
-1. .kafkat.json
-2. ~/.kafkat.json
-3. /etc/kafkat/config.json
+1. `.kafkat.json`
+2. `~/.kafkat.json`
+3. `/etc/kafkat/config.json`
 
 * At any time, you can run `kafkat` to get a list of available commands and their arguments.
 
