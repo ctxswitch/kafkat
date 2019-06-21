@@ -12,10 +12,8 @@ module Kafkat
     def run(args)
       Command.load!
 
-      # Get the command category
+      # Get the category
       category_name = args.first
-      category = Command.subcommand_category(category_name)
-      Command::Base.new.print_help_and_exit(0) if category.nil? # This is kindof odd.
 
       # Get the subcommand
       subcommand_name = find_command_in_args(args)
@@ -23,7 +21,7 @@ module Kafkat
 
       subcommand = Command.get(subcommand_name).new
       if Command.deprecated?(subcommand_name)
-        puts "WARNING: The '#{subcommand_name}' command is deprecated, please use '#{subcommand.command_name.tr('_', ' ')}' instead."
+        puts "WARNING: The '#{subcommand_name}' command is deprecated, please use '#{subcommand.class.command_name.tr('_', ' ')}' instead."
       end
 
       args.shift(subcommand_name.split('_').size)

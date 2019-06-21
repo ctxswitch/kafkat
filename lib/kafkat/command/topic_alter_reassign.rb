@@ -28,7 +28,7 @@ module Kafkat
         topics ||= zookeeper.topics
 
         broker_ids = config[:brokers]&.split(',')&.map(&:to_i)
-        replica_count = config[:replicas]
+        replica_count = config[:replicas].to_i
 
         broker_ids ||= zookeeper.brokers.values.map(&:id)
 

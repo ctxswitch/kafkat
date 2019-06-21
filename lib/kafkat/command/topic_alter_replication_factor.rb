@@ -37,7 +37,7 @@ module Kafkat
         topics ||= zookeeper.topics
 
         broker_ids = config[:brokers]&.split(',')&.map(&:to_i)
-        new_rf = config[:replicas]
+        new_rf = config[:replicas].to_i
 
         if new_rf < 1
           puts 'ERROR: replication factor is smaller than 1'
@@ -64,7 +64,7 @@ module Kafkat
         topics.each do |_, t|
           current_rf = t.partitions[0].replicas.size
           if new_rf < current_rf
-            warn_reduce_brokers if opts[:brokers]
+            warn_reduce_brokers if config[:brokers]
             assignments += reduce_rf(t, current_rf, new_rf)
           elsif new_rf > current_rf
             assignments += increase_rf(t, current_rf, new_rf, broker_ids)

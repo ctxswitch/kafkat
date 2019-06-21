@@ -73,13 +73,14 @@ module Kafkat
     context 'include?' do
       it 'return true for commands that are present' do
         allow(Command).to receive(:registered).and_return([
-          { category: 'one', command: OneCommandList, id: 'one_command_list', deprecated: [] },
+          { category: 'one', command: OneCommandList, id: 'one_command_list', deprecated: ['one-list', 'one'] },
           { category: 'one', command: OneCommandShow, id: 'one_command_show', deprecated: [] },
-          { category: 'two', command: TwoCommandList, id: 'two_command_list', deprecated: [] },
+          { category: 'two', command: TwoCommandList, id: 'two_command_list', deprecated: ['two-list'] },
         ])
         expect(Command.include?('one_command_list')).to eq(true)
         expect(Command.include?('one_command_show')).to eq(true)
         expect(Command.include?('two_command_list')).to eq(true)
+        expect(Command.include?('one')).to eq(true)
         expect(Command.include?('three_command_list')).to eq(false)
       end
     end
@@ -94,24 +95,6 @@ module Kafkat
         expect(Command.deprecated?('one-list')).to eq(true)
         expect(Command.deprecated?('one')).to eq(true)
         expect(Command.deprecated?('two-list')).to eq(true)
-      end
-    end
-
-    context 'subcommand_category' do
-      it 'should return nil arguments are nil' do
-        allow(Command).to receive(:categories).and_return(%w(bar baz))
-        expect(Command.subcommand_category(nil)).to eq(nil)
-      end
-
-      it 'should return nil if the command does not exist' do
-        allow(Command).to receive(:categories).and_return(%w(bar baz))
-        expect(Command.subcommand_category('foo')).to eq(nil)
-      end
-
-      it 'should return the hash if the command does not exist' do
-        allow(Command).to receive(:categories).and_return(%w(foo bar baz))
-        allow(Command).to receive(:get_by_category).and_return(Command::Base.new)
-        expect(Command.subcommand_category('foo')).to be_kind_of(Command::Base)
       end
     end
   end

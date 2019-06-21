@@ -33,7 +33,8 @@ module Kafkat
     end
 
     def self.include?(name)
-      registered.map { |h| h[:id] }.include?(name)
+      @registered_map ||= registered.map { |h| h[:id] }
+      @registered_map.include?(name) || deprecated?(name)
     end
 
     def self.deprecated?(name)
@@ -47,13 +48,6 @@ module Kafkat
 
     def self.description
       @description ||= []
-    end
-
-    def self.subcommand_category(name)
-      category_name = name&.tr('-', '_')
-      return nil unless categories.include?(category_name)
-
-      get_by_category(category_name)
     end
 
     def self.load!(force = false)
