@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'optimist', '~> 3.0'
   s.add_runtime_dependency 'mixlib-cli', '~> 1.7'
   s.add_runtime_dependency 'mixlib-config', '~> 3.0'
+  s.add_runtime_dependency 'mixlib-shellout', '~> 3.0'
   s.add_runtime_dependency 'retryable', '~> 1.3', '>= 1.3.5'
   s.add_runtime_dependency 'zk', '~> 1.9', '>= 1.9.4'
 
