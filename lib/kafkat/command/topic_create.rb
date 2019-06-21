@@ -11,13 +11,15 @@ module Kafkat
         description: 'The number of replicas',
         default: 1,
         proc: Proc.new { |o| o.to_i }
-      
+
       option :partitions,
         short: '-P',
         long: '--partitions NUM',
         descriptions: 'The number of partitions',
         default: 1,
         proc: Proc.new { |o| o.to_i }
+
+      attr_reader :topic, :replication_factor, :partitions
 
       def run
         @topic = arguments.first
@@ -29,7 +31,7 @@ module Kafkat
           '--create',
           '--replication-factor', @replication_factor,
           '--partitions', @partitions,
-          '--topic', @topic
+          '--topic', @topic,
         ]
 
         begin
