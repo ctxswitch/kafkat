@@ -1,30 +1,42 @@
 # frozen_string_literal: true
 module Kafkat
   module Command
-    class VerifyReplicas < Base
-      register_as 'verify-replicas'
+    class TopicVerify < Base
+      register_as 'topic_verify', deprecated: 'verify-replicas'
+      banner 'kafkat topic verify'
+      description 'Check if all partitions in a topic have same number of replicas.'
 
-      usage 'verify-replicas  [--topics] [--broker <id>] [--print-details] [--print-summary]',
-            'Check if all partitions in a topic have same number of replicas.'
+      option :topics,
+        short: '-T',
+        long: '--topic TOPIC',
+        description: 'The topics to verify.'
+
+      option :brokers,
+        short: '-B',
+        long: '--brokers BROKERS',
+        description: 'The destination brokers for the topics.'
+
+      option :print_summary,
+        long: '--print-summary',
+        default: false,
+        description: 'Show summary of mismatched partitions.'
+
+      option :print_details,
+        long: '--print-details',
+        default: false,
+        description: 'Show replica size of mismatched partitions.'
 
       def run
-        opts = Optimist.options do
-          opt :topics, 'topic names', type: :string
-          opt :broker, 'broker ID', type: :string
-          opt :print_details, 'show replica size of mismatched partitions', default: false
-          opt :print_summary, 'show summary of mismatched partitions', default: false
-        end
-
-        topic_names = opts[:topics]
-        print_details = opts[:print_details]
-        print_summary = opts[:print_summary]
+        topic_names = config[:topics]
+        print_details = config[:print_details]
+        print_summary = config[:print_summary]
 
         if topic_names
           topics_list = topic_names.split(',')
           topics = zookeeper.topics(topics_list)
         end
         topics ||= zookeeper.topics
-        broker = opts[:broker]&.to_i
+        broker = config[:broker]&.to_i
 
         partition_replica_size, partition_replica_size_stat = verify_replicas(broker, topics)
 

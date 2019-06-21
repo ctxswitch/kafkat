@@ -1,43 +1,45 @@
 # frozen_string_literal: true
+require 'mixlib/config' unless defined?(Mixlib::Config)
 
 module Kafkat
-  class Config
-    CONFIG_PATHS = [
-      '~/.kafkatcfg',
-      '/etc/kafkatcfg',
-    ].freeze
-
+  module Config
     class NotFoundError < StandardError; end
     class ParseError < StandardError; end
 
-    attr_reader :kafka_path
-    attr_reader :log_path
-    attr_reader :zk_path
+    extend Mixlib::Config
+    config_strict_mode true
+    default :zk_path, 'localhost:2181'
+    default :log_path, '/kafka'
+    default :kafka_path, '.'
+
+    PATHS = [
+      '.kafkat.json',
+      '.kafkat.yml',
+      '~/.kafkat.json',
+      '~/.kafkat.yml',
+      '/etc/kafkat/config.json',
+      '/etc/kafkat/config.yml',
+    ].freeze
 
     def self.load!
-      string = nil
-      e = nil
+      return true if @loaded
 
-      CONFIG_PATHS.each do |rel_path|
+      PATHS.each do |rel_path|
         path = File.expand_path(rel_path)
-        string = File.read(path)
+        next unless File.exist?(path)
+        load_file!(path)
+        @loaded = true
         break
       end
-
-      raise e if e && string.nil?
-
-      json = JSON.parse(string)
-      new(json)
+      raise NotFoundError unless @loaded
     rescue Errno::ENOENT
       raise NotFoundError
-    rescue JSON::JSONError
-      raise ParseError
     end
 
-    def initialize(json)
-      @kafka_path = json['kafka_path']
-      @log_path = json['log_path']
-      @zk_path = json['zk_path']
+    def self.load_file!(path)
+      from_file(path)
+    rescue Errno::ENOENT
+      raise NotFoundError
     end
   end
 end

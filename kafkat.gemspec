@@ -21,6 +21,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'highline', '~> 1.6', '>= 1.6.21'
   s.add_runtime_dependency 'json', '~> 1.8'
   s.add_runtime_dependency 'optimist', '~> 3.0'
+  s.add_runtime_dependency 'mixlib-cli', '~> 1.7'
+  s.add_runtime_dependency 'mixlib-config', '~> 3.0'
   s.add_runtime_dependency 'retryable', '~> 1.3', '>= 1.3.5'
   s.add_runtime_dependency 'zk', '~> 1.9', '>= 1.9.4'
 
@@ -33,4 +35,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rubocop', '~> 0.70.0'
   s.add_development_dependency 'rubocop-rspec', '~> 1.33.0'
   s.add_development_dependency 'simplecov', '~> 0.16.1'
+  s.add_development_dependency 'pry', '~> 0.12'
 end

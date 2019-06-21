@@ -37,31 +37,43 @@ gem install kafkat
 }
 ```
 
-Kafkat searches for this file in two places, `~/.kafkatcfg` and `/etc/kafkatcfg`.
+Kafkat searches for this file in multiple places in the following order:
+
+1. .kafkat.json
+2. ~/.kafkat.json
+3. /etc/kafkat/config.json
 
 * At any time, you can run `kafkat` to get a list of available commands and their arguments.
 
 ```
 $ kafkat
-kafkat 0.0.10: Simplified command-line administration for Kafka brokers
-usage: kafkat [command] [options]
+kafkat: Simplified command-line administration for Kafka brokers
 
-Here's a list of supported commands:
+kafkat SUB-COMMAND (options)
+    -c, --config CONFIG              Configuration file to use.
+    -k, --kafka-path PATH            Where kafka has been installed.
+    -l, --log-path PATH              Where topic data is stored.
+    -z, --zookeeper PATH             The zookeeper path string in the form <host>:<port>,...
+    -h, --help                       Show this message
 
-  brokers                                                             Print available brokers from Zookeeper.
-  clean-indexes                                                       Delete untruncated Kafka log indexes from the filesystem.
-  controller                                                          Print the current controller.
-  elect-leaders [topic]                                               Begin election of the preferred leaders.
-  partitions [topic]                                                  Print partitions by topic.
-  partitions [topic] --under-replicated                               Print partitions by topic (only under-replicated).
-  partitions [topic] --unavailable                                    Print partitions by topic (only unavailable).
-  reassign [topic] [--brokers <ids>] [--replicas <n>]                 Begin reassignment of partitions.
-  resign-rewrite <broker id>                                          Forcibly rewrite leaderships to exclude a broker.
-  resign-rewrite <broker id> --force                                  Same as above but proceed if there are no available ISRs.
-  set-replication-factor [topic] [--newrf <n>] [--brokers id[,id]]    Set the replication factor of
-  shutdown <broker id>                                                Gracefully remove leaderships from a broker (requires JMX).
-  topics                                                              Print all topics.
-  drain <broker id> [--topic <t>] [--brokers <ids>]                   Reassign partitions from a specific broker to other brokers.
+Available subcommands: (for details, kafkat SUB-COMMAND --help)
+
+-- BROKER COMMANDS --
+kafkat broker clean
+kafkat broker drain BROKER
+kafkat broker list
+kafkat broker resign BROKER
+
+-- CLUSTER COMMANDS --
+kafkat cluster restart
+
+-- TOPIC COMMANDS --
+kafkat topic alter reassign TOPIC
+kafkat topic alter replication-factor TOPIC
+kafkat topic describe TOPIC
+kafkat topic elect TOPIC
+kafkat topic list
+kafkat topic verify
   
 ```
 

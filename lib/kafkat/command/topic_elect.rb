@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 module Kafkat
   module Command
-    class ElectLeaders < Base
-      register_as 'elect-leaders'
-
-      usage 'elect-leaders [topic]',
-            'Begin election of the preferred leaders.'
+    class TopicElect < Base
+      register_as 'topic_elect', deprecated: 'elect-leaders'
+      banner 'kafkat topic elect TOPIC'
+      description 'Begin election of the preferred leaders.'
 
       def run
-        topic_name = ARGV[0] && ARGV.shift
+        topic_name = arguments.last
         topic_names = topic_name && [topic_name]
 
         topics = zookeeper.topics(topic_names)

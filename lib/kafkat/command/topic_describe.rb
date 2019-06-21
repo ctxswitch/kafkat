@@ -1,24 +1,22 @@
 # frozen_string_literal: true
 module Kafkat
   module Command
-    class Describe < Base
-      register_as 'partitions'
+    class TopicDescribe < Base
+      register_as 'topic_describe', deprecated: 'partitions'
+      banner 'kafkat topic describe TOPIC'
+      description 'Print information about the given topic.'
 
-      usage 'partitions [topic]',
-            'Print partitions by topic.'
-      usage 'partitions [topic] --under-replicated',
-            'Print partitions by topic (only under-replicated).'
-      usage 'partitions [topic] --unavailable',
-            'Print partitions by topic (only unavailable).'
+      option :under_replicated,
+        description: "Print topic partitions that are under-replicated.",
+        long: "--under-replicated"
+
+      option :unavailable,
+        description: "Print topic partitions that are unavailable.",
+        long: "--unavailable"
 
       def run
-        topic_name = ARGV.shift unless ARGV[0]&.start_with?('--')
+        topic_name = arguments.last
         topic_names = topic_name && [topic_name]
-
-        @options = Optimist.options do
-          opt :under_replicated, 'only under-replicated'
-          opt :unavailable, 'only unavailable'
-        end
 
         brokers = zookeeper.brokers
         topics = zookeeper.topics(topic_names)
@@ -29,6 +27,9 @@ module Kafkat
             print_partition(p) if selected?(p, brokers)
           end
         end
+      rescue Command::InvalidArgument
+        puts "Please specify a topic(s)."
+        print_help_and_exit(1)
       end
 
       private
@@ -40,11 +41,11 @@ module Kafkat
       end
 
       def only_under_replicated?
-        !!@options[:under_replicated]
+        !!config[:under_replicated]
       end
 
       def only_unavailable?
-        !!@options[:unavailable]
+        !!config[:unavailable]
       end
     end
   end

@@ -10,9 +10,9 @@ module Kafkat
       attr_reader :kafka_path
       attr_reader :zk_path
 
-      def initialize(config)
-        @kafka_path = config.kafka_path
-        @zk_path = config.zk_path
+      def initialize
+        @kafka_path = Kafkat::Config.kafka_path
+        @zk_path = Kafkat::Config.zk_path
       end
 
       def elect_leaders!(partitions)

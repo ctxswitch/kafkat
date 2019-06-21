@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 module Kafkat
   module Command
-    class CleanIndexes < Base
-      register_as 'clean-indexes'
-
-      usage 'clean-indexes',
-            'Delete untruncated Kafka log indexes from the filesystem.'
+    class BrokerClean < Base
+      register_as 'broker_clean', deprecated: 'clean-indexes'
+      banner 'kafkat broker clean'
+      description 'Delete untruncated Kafka log indexes from the filesystem.'
 
       def run
         print "This operation will remove any untruncated index files.\n"
