@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Kafkat
   module Command
     # Command to set the replication factor (RF) of a topic.
