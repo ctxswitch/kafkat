@@ -39,12 +39,6 @@ Airbnb/SimpleModifierConditional:
     - 'lib/kafkat/command/topic_alter_reassign.rb'
     - 'lib/kafkat/command/topic_verify.rb'
 
-# Offense count: 4
-# Cop supports --auto-correct.
-Layout/AlignArray:
-  Exclude:
-    - 'spec/factories/topic.rb'
-
 # Offense count: 7
 # Cop supports --auto-correct.
 Layout/BlockEndNewline:
