@@ -72,12 +72,6 @@ Layout/EmptyLineAfterMagicComment:
     - 'lib/kafkat/interface/kafka_logs.rb'
     - 'lib/kafkat/interface/zookeeper.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Layout/EmptyLines:
-  Exclude:
-    - 'spec/lib/kafkat/command/drain_spec.rb'
-
 # Offense count: 6
 # Cop supports --auto-correct.
 Layout/FirstArrayElementLineBreak:

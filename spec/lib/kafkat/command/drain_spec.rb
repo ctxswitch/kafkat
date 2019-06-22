@@ -69,7 +69,6 @@ module Kafkat
   end
 end
 
-
 # module Kafkat
 #   RSpec.describe Command::BrokerDrain do
 #     let(:drain) { Command::BrokerDrain.new }
