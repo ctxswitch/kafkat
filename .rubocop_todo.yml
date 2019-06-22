@@ -45,13 +45,6 @@ Layout/AlignArray:
   Exclude:
     - 'spec/factories/topic.rb'
 
-# Offense count: 7
-# Cop supports --auto-correct.
-Layout/BlockEndNewline:
-  Exclude:
-    - 'spec/factories/topic.rb'
-    - 'spec/lib/kafkat/command/verify_replicas_spec.rb'
-
 # Offense count: 15
 # Cop supports --auto-correct.
 Layout/EmptyLineAfterMagicComment:
