@@ -9,7 +9,7 @@ module Kafkat
       let(:p3) { Partition.new('topic1', 'p3', ['2', '3', '4'], '3', 1) }
       let(:topics) {
         {
-            'topic1' => Topic.new('topic1', [p1, p2, p3])
+          'topic1' => Topic.new('topic1', [p1, p2, p3])
         }
       }
       let(:zookeeper) { double('zookeeper') }
@@ -116,7 +116,7 @@ module Kafkat
       let(:p3) { Partition.new('topic1', 'p3', ['2', '3', '4'], '3', 1) }
       let(:topics) {
         {
-            'topic1' => Topic.new('topic1', [p1, p2, p3])
+          'topic1' => Topic.new('topic1', [p1, p2, p3])
         }
       }
       let(:zookeeper) { double('zookeeper') }
