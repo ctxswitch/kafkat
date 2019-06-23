@@ -51,7 +51,7 @@ module Kafkat
         name { 'topic_name2' }
         partitions { [Partition.new('topic_name2', 0, [3, 4, 5], 0, [0]),
                       Partition.new('topic_name2', 1, [3, 4, 5], 0, [0]),
-                      Partition.new('topic_name2', 2, [3, 4, 5], 1, [1])]         
+                      Partition.new('topic_name2', 2, [3, 4, 5], 1, [1])]
         }
       end
     end
