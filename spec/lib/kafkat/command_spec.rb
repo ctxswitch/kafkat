@@ -6,13 +6,25 @@ module Kafkat
     before do
       stub_const 'OneCommandList', Class.new(Command::Base)
       OneCommandList.class_eval { register_as 'one_command_list' }
-      OneCommandList.class_eval { def run ; puts 'one_command_list' ; end }
+      OneCommandList.class_eval do
+        def run
+          puts 'one_command_list'
+        end
+      end
       stub_const 'OneCommandShow', Class.new(Command::Base)
       OneCommandShow.class_eval { register_as 'one_command_show' }
-      OneCommandShow.class_eval { def run ; puts 'one_command_show' ; end }
+      OneCommandShow.class_eval do
+        def run
+          puts 'one_command_show'
+        end
+      end
       stub_const 'TwoCommandList', Class.new(Command::Base)
       TwoCommandList.class_eval { register_as 'two_command_list' }
-      TwoCommandList.class_eval { def run ; puts 'two_command_list' ; end }
+      TwoCommandList.class_eval do
+        def run
+          puts 'two_command_list'
+        end
+      end
     end
 
     before(:each) do
@@ -20,7 +32,7 @@ module Kafkat
     end
 
     context 'categories' do
-      it 'should return unique categories' do
+      it 'returns unique categories' do
         allow(Command).to receive(:registered).and_return([
           { category: 'one', command: OneCommandList, id: 'one_command_list', deprecated: [] },
           { category: 'one', command: OneCommandShow, id: 'one_command_show', deprecated: [] },
@@ -31,7 +43,7 @@ module Kafkat
     end
 
     context 'get_by_category' do
-      it 'should return the requested category commands' do
+      it 'returns the requested category commands' do
         allow(Command).to receive(:registered).and_return([
           { category: 'one', command: OneCommandList, id: 'one_command_list', deprecated: [] },
           { category: 'one', command: OneCommandShow, id: 'one_command_show', deprecated: [] },
@@ -40,7 +52,7 @@ module Kafkat
         expect(Command.get_by_category('one')).to eq([OneCommandList, OneCommandShow])
       end
 
-      it 'should raise an error if the category does not have anything' do
+      it 'raises an error if the category does not have anything' do
         allow(Command).to receive(:registered).and_return([
           { category: 'one', command: OneCommandList, id: 'one_command_list', deprecated: [] },
           { category: 'one', command: OneCommandShow, id: 'one_command_show', deprecated: [] },
@@ -51,7 +63,7 @@ module Kafkat
     end
 
     context 'get' do
-      it 'should return registered commands' do
+      it 'returns registered commands' do
         allow(Command).to receive(:registered).and_return([
           { category: 'one', command: OneCommandList, id: 'one_command_list', deprecated: [] },
           { category: 'one', command: OneCommandShow, id: 'one_command_show', deprecated: [] },
@@ -64,7 +76,7 @@ module Kafkat
     end
 
     context 'registered' do
-      it 'should append to the registered list' do
+      it 'appends to the registered list' do
         expect(Command.registered << { 'one' => {} }).to eq([{ 'one' => {} }])
         expect(Command.registered << { 'two' => {} }).to eq([{ 'one' => {} }, { 'two' => {} }])
       end

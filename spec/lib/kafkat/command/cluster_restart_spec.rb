@@ -7,11 +7,11 @@ module Kafkat
       let(:p1) { Partition.new('topic1', 'p1', ['1', '2', '3'], '1', 1) }
       let(:p2) { Partition.new('topic1', 'p2', ['1', '2', '3'], '2', 1) }
       let(:p3) { Partition.new('topic1', 'p3', ['2', '3', '4'], '3', 1) }
-      let(:topics) {
+      let(:topics) do
         {
-          'topic1' => Topic.new('topic1', [p1, p2, p3])
+          'topic1' => Topic.new('topic1', [p1, p2, p3]),
         }
-      }
+      end
       let(:zookeeper) { double('zookeeper') }
       let(:broker_ids) { ['1', '2', '3', '4'] }
       let(:broker_4) { Broker.new('4', 'i-xxxxxx.inst.aws.airbnb.com', 9092) }
@@ -31,6 +31,7 @@ module Kafkat
 
       context 'run_next' do
         let(:command) { ClusterRestart.new }
+
         it 'execute next with 4 brokers and 3 partitions' do
           allow(zookeeper).to receive(:broker_ids).and_return(broker_ids)
           allow(zookeeper).to receive(:get_broker).and_return(broker_4)
@@ -49,9 +50,9 @@ module Kafkat
 
         context 'run_good' do
           let(:command) { ClusterRestart.new }
-          let(:session) {
-            Session.new('broker_states' => {'1' => Session::STATE_PENDING})
-          }
+          let(:session) do
+            Session.new('broker_states' => { '1' => Session::STATE_PENDING })
+          end
 
           it 'set one broker to be restarted' do
             allow(Session).to receive(:exists?).and_return(true)
@@ -70,9 +71,9 @@ module Kafkat
     describe Session do
       describe '#allBrokersRestarted?' do
         context 'when some brokers have not been restarted' do
-          let(:session) {
-            Session.new('broker_states' => {'1' => Session::STATE_NOT_RESTARTED, '2' => Session::STATE_RESTARTED})
-          }
+          let(:session) do
+            Session.new('broker_states' => { '1' => Session::STATE_NOT_RESTARTED, '2' => Session::STATE_RESTARTED })
+          end
 
           it do
             expect(session.all_restarted?).to be false
@@ -80,9 +81,9 @@ module Kafkat
         end
 
         context 'when all brokers have been restarted' do
-          let(:session) {
-            Session.new('broker_states' => {'1' => Session::STATE_RESTARTED, '2' => Session::STATE_RESTARTED})
-          }
+          let(:session) do
+            Session.new('broker_states' => { '1' => Session::STATE_RESTARTED, '2' => Session::STATE_RESTARTED })
+          end
 
           it do
             expect(session.all_restarted?).to be true
@@ -91,9 +92,9 @@ module Kafkat
       end
 
       describe '#update_states!' do
-        let(:session) {
-          Session.new('broker_states' => {'1' => Session::STATE_NOT_RESTARTED, '2' => Session::STATE_RESTARTED})
-        }
+        let(:session) do
+          Session.new('broker_states' => { '1' => Session::STATE_NOT_RESTARTED, '2' => Session::STATE_RESTARTED })
+        end
 
         it 'validates state' do
           expect { session.update_states!('my_state', []) }.to raise_error UnknownStateError
@@ -114,11 +115,11 @@ module Kafkat
       let(:p1) { Partition.new('topic1', 'p1', ['1', '2', '3'], '1', 1) }
       let(:p2) { Partition.new('topic1', 'p2', ['1', '2', '3'], '2', 1) }
       let(:p3) { Partition.new('topic1', 'p3', ['2', '3', '4'], '3', 1) }
-      let(:topics) {
+      let(:topics) do
         {
-          'topic1' => Topic.new('topic1', [p1, p2, p3])
+          'topic1' => Topic.new('topic1', [p1, p2, p3]),
         }
-      }
+      end
       let(:zookeeper) { double('zookeeper') }
       let(:broker_ids) { ['1', '2', '3', '4'] }
 
