@@ -39,38 +39,6 @@ Airbnb/SimpleModifierConditional:
     - 'lib/kafkat/command/topic_alter_reassign.rb'
     - 'lib/kafkat/command/topic_verify.rb'
 
-# Offense count: 4
-# Cop supports --auto-correct.
-Layout/AlignArray:
-  Exclude:
-    - 'spec/factories/topic.rb'
-
-# Offense count: 15
-# Cop supports --auto-correct.
-Layout/EmptyLineAfterMagicComment:
-  Exclude:
-    - 'lib/kafkat/command.rb'
-    - 'lib/kafkat/command/broker_clean.rb'
-    - 'lib/kafkat/command/broker_drain.rb'
-    - 'lib/kafkat/command/broker_list.rb'
-    - 'lib/kafkat/command/broker_resign.rb'
-    - 'lib/kafkat/command/topic_alter_reassign.rb'
-    - 'lib/kafkat/command/topic_alter_replication_factor.rb'
-    - 'lib/kafkat/command/topic_describe.rb'
-    - 'lib/kafkat/command/topic_elect.rb'
-    - 'lib/kafkat/command/topic_list.rb'
-    - 'lib/kafkat/command/topic_verify.rb'
-    - 'lib/kafkat/config.rb'
-    - 'lib/kafkat/interface/admin.rb'
-    - 'lib/kafkat/interface/kafka_logs.rb'
-    - 'lib/kafkat/interface/zookeeper.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Layout/EmptyLines:
-  Exclude:
-    - 'spec/lib/kafkat/command/drain_spec.rb'
-
 # Offense count: 6
 # Cop supports --auto-correct.
 Layout/FirstArrayElementLineBreak:
@@ -90,16 +58,6 @@ Layout/IndentHash:
 Layout/MultilineBlockLayout:
   Exclude:
     - 'spec/factories/topic.rb'
-
-# Offense count: 7
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces.
-# SupportedStyles: space, no_space
-# SupportedStylesForEmptyBraces: space, no_space
-Layout/SpaceBeforeBlockBraces:
-  Exclude:
-    - 'spec/lib/kafkat/command/cluster_restart_spec.rb'
-    - 'spec/lib/kafkat/command_spec.rb'
 
 # Offense count: 6
 # Cop supports --auto-correct.

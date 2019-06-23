@@ -49,7 +49,7 @@ module Kafkat
 
         context 'run_good' do
           let(:command) { ClusterRestart.new }
-          let(:session){
+          let(:session) {
             Session.new('broker_states' => {'1' => Session::STATE_PENDING})
           }
 
