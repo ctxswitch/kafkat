@@ -29,7 +29,7 @@ module Kafkat
 
       # Load configuration
       if subcommand.config[:config_file]
-        Config.load_file!(config[:config_file])
+        Config.load!(paths: [subcommand.config[:config_file]])
       else
         Config.load!
       end
@@ -44,8 +44,10 @@ module Kafkat
       subcommand.print_error_and_exit("Could not parse configuration file: #{e}", 1)
     rescue Mixlib::Config::UnknownConfigOptionError => e
       subcommand.print_error_and_exit("Invalid configuration file: #{e}", 1)
-    rescue Kafkat::Config::ParserError => e
-      print_error_and_exit("An error occured: #{e}", 1)
+    rescue Kafkat::Config::ParseError => e
+      subcommand.print_error_and_exit(e, 1)
+    rescue Kafkat::Config::NotFoundError => e
+      subcommand.print_error_and_exit(e, 1)
     rescue OptionParser::InvalidOption
       subcommand.print_help_and_exit(1, category: category_name)
     rescue OptionParser::MissingArgument

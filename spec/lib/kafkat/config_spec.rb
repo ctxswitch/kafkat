@@ -41,6 +41,13 @@ describe Kafkat::Config do
           log_path: '/kafka-3',
         })
       end
+      let(:custom_kafka) do
+        JSON.generate({
+          kafka_path: '/opt/kafka-4',
+          zk_path: 'localhost:2184',
+          log_path: '/kafka-4',
+        })
+      end
 
       it 'loads /etc/kafkat/config.json' do
         allow(File).to receive(:exist?).and_return(false)
@@ -92,6 +99,18 @@ describe Kafkat::Config do
         expect(Kafkat::Config.kafka_path).to eq('/opt/kafka-3')
         expect(Kafkat::Config.zk_path).to eq('localhost:2183')
         expect(Kafkat::Config.log_path).to eq('/kafka-3')
+      end
+
+      it 'loads a custom config file' do
+        allow(File).to receive(:exist?).and_return(true)
+        allow(File).to receive(:exist?).with(File.expand_path('.custom.json')).and_return(true)
+        allow(IO).to receive(:read).and_return(nil)
+        allow(IO).to receive(:read).with(File.expand_path('.custom.json')).and_return(custom_kafka)
+
+        Kafkat::Config.load!(paths: ['.custom.json'])
+        expect(Kafkat::Config.kafka_path).to eq('/opt/kafka-4')
+        expect(Kafkat::Config.zk_path).to eq('localhost:2184')
+        expect(Kafkat::Config.log_path).to eq('/kafka-4')
       end
     end
   end
