@@ -70,6 +70,7 @@ kafkat cluster restart
 -- TOPIC COMMANDS --
 kafkat topic alter reassign TOPIC
 kafkat topic alter replication-factor TOPIC
+kafkat topic create TOPIC
 kafkat topic describe TOPIC
 kafkat topic elect TOPIC
 kafkat topic list
