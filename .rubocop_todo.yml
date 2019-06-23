@@ -46,12 +46,6 @@ Layout/BlockEndNewline:
     - 'spec/factories/topic.rb'
     - 'spec/lib/kafkat/command/verify_replicas_spec.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Layout/EmptyLines:
-  Exclude:
-    - 'spec/lib/kafkat/command/drain_spec.rb'
-
 # Offense count: 6
 # Cop supports --auto-correct.
 Layout/FirstArrayElementLineBreak:
