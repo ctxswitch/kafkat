@@ -5,14 +5,14 @@ module Kafkat
   describe Command do
     before do
       stub_const 'OneCommandList', Class.new(Command::Base)
-      OneCommandList.class_eval{ register_as 'one_command_list' }
-      OneCommandList.class_eval{ def run ; puts 'one_command_list' ; end }
+      OneCommandList.class_eval { register_as 'one_command_list' }
+      OneCommandList.class_eval { def run ; puts 'one_command_list' ; end }
       stub_const 'OneCommandShow', Class.new(Command::Base)
-      OneCommandShow.class_eval{ register_as 'one_command_show' }
-      OneCommandShow.class_eval{ def run ; puts 'one_command_show' ; end }
+      OneCommandShow.class_eval { register_as 'one_command_show' }
+      OneCommandShow.class_eval { def run ; puts 'one_command_show' ; end }
       stub_const 'TwoCommandList', Class.new(Command::Base)
-      TwoCommandList.class_eval{ register_as 'two_command_list' }
-      TwoCommandList.class_eval{ def run ; puts 'two_command_list' ; end }
+      TwoCommandList.class_eval { register_as 'two_command_list' }
+      TwoCommandList.class_eval { def run ; puts 'two_command_list' ; end }
     end
 
     before(:each) do
