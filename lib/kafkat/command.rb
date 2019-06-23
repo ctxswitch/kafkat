@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "mixlib/cli" unless defined?(Mixlib::CLI)
 
 module Kafkat
