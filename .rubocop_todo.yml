@@ -45,14 +45,6 @@ Layout/FirstArrayElementLineBreak:
   Exclude:
     - 'spec/factories/topic.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, IndentationWidth.
-# SupportedStyles: special_inside_parentheses, consistent
-Layout/IndentHash:
-  Exclude:
-    - 'spec/lib/kafkat/command/cluster_restart_spec.rb'
-
 # Offense count: 6
 # Cop supports --auto-correct.
 Layout/MultilineBlockLayout:
