@@ -14,33 +14,36 @@ module Kafkat
     default :kafka_path, '.'
 
     PATHS = [
-      '.kafkat.json',
-      '.kafkat.yml',
-      '~/.kafkat.json',
-      '~/.kafkat.yml',
       '/etc/kafkat/config.json',
-      '/etc/kafkat/config.yml',
+      '~/.kafkat.json',
+      '.kafkat.json',
     ].freeze
+
+    def self.reset!
+      # From Mixlib::Config
+      reset
+      # Reload
+      @loaded = false
+    end
 
     def self.load!
       return true if @loaded
 
-      PATHS.each do |rel_path|
-        path = File.expand_path(rel_path)
-        next unless File.exist?(path)
-        load_file!(path)
-        @loaded = true
-        break
-      end
-      raise NotFoundError unless @loaded
-    rescue Errno::ENOENT
-      raise NotFoundError
-    end
+      # Established order of precidence for right now just take the
+      # last one, but in the future we will iterate through all of
+      # them allowing overrides the closer you get to the working dir.
+      configs = PATHS
+        .map { |f| File.expand_path(f) }
+        .select { |f| File.exist?(f) }
 
-    def self.load_file!(path)
+      raise NotFoundError if configs.empty?
+
+      path = File.expand_path(configs.last)
       from_file(path)
-    rescue Errno::ENOENT
-      raise NotFoundError
+      @loaded = true
+
+    rescue Errno::EACCES
+      raise ParseError, 'Permission denied'
     end
   end
 end
