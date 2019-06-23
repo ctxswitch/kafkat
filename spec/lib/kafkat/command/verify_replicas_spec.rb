@@ -8,7 +8,8 @@ module Kafkat
 
       context 'two topics with replication factor 3' do
         let(:topic_rep_factor_three_with_four_replicas_in_partition1) {
-          FactoryBot.build(:topic_rep_factor_three_with_four_replicas_in_partition1) }
+          FactoryBot.build(:topic_rep_factor_three_with_four_replicas_in_partition1)
+        }
         let(:topic2_rep_factor_three) { FactoryBot.build(:topic2_rep_factor_three) }
 
         it 'should return empty mismatched partitions for all brokers' do
