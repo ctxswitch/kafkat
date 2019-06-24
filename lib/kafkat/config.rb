@@ -26,17 +26,18 @@ module Kafkat
       @loaded = false
     end
 
-    def self.load!
+    def self.load!(paths: [])
       return true if @loaded
 
+      paths = PATHS if paths.empty?
       # Established order of precidence for right now just take the
       # last one, but in the future we will iterate through all of
       # them allowing overrides the closer you get to the working dir.
-      configs = PATHS
+      configs = paths
         .map { |f| File.expand_path(f) }
         .select { |f| File.exist?(f) }
 
-      raise NotFoundError if configs.empty?
+      raise NotFoundError, 'There were no configuation files found.' if configs.empty?
 
       path = File.expand_path(configs.last)
       from_file(path)
