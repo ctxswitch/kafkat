@@ -41,12 +41,6 @@ Airbnb/SimpleModifierConditional:
 
 # Offense count: 6
 # Cop supports --auto-correct.
-Layout/MultilineBlockLayout:
-  Exclude:
-    - 'spec/factories/topic.rb'
-
-# Offense count: 6
-# Cop supports --auto-correct.
 Layout/SpaceBeforeSemicolon:
   Exclude:
     - 'spec/lib/kafkat/command_spec.rb'
