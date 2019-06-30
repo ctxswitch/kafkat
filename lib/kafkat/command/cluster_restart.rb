@@ -8,7 +8,7 @@ module Kafkat
       banner 'kafkat cluster restart'
       description 'Determine the server restart sequence for kafka'
 
-      VALID_COMMANDS = %w(reset start next good log restore help)
+      VALID_COMMANDS = %w(reset start next good log restore help).freeze
 
       def run
         subcommand_name = arguments.first || 'help'
@@ -184,7 +184,7 @@ module Kafkat
       STATE_RESTARTED = 'restarted' # use String instead of Symbol to facilitate JSON ser/deser
       STATE_NOT_RESTARTED = 'not_restarted'
       STATE_PENDING = 'pending'
-      STATES = [STATE_NOT_RESTARTED, STATE_RESTARTED, STATE_PENDING]
+      STATES = [STATE_NOT_RESTARTED, STATE_RESTARTED, STATE_PENDING].freeze
 
       class NotFoundError < StandardError; end
       class ParseError < StandardError; end

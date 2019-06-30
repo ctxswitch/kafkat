@@ -11,10 +11,10 @@ module Kafkat
       context 'three nodes with replication factor 1' do
         let(:topic_rep_factor_one) { FactoryBot.build(:topic_rep_factor_one) }
 
-        it 'should put replicas to broker with lowest number of replicas' do
+        it 'puts replicas to broker with lowest number of replicas' do
           assignments = drain.generate_assignments(
             broker_id,
-            {"topic_name" => topic_rep_factor_one},
+            { "topic_name" => topic_rep_factor_one },
             destination_broker_ids
           )
           expect(assignments).to have_exactly(2).items
@@ -25,10 +25,11 @@ module Kafkat
 
       context 'three nodes with replication factor 2' do
         let(:topic_rep_factor_two) { FactoryBot.build(:topic_rep_factor_two) }
-        it 'should put replicas to broker with lowest number of replicas' do
+
+        it 'puts replicas to broker with lowest number of replicas' do
           assignments = drain.generate_assignments(
             broker_id,
-            {"topic_name" => topic_rep_factor_two},
+            { "topic_name" => topic_rep_factor_two },
             destination_broker_ids
           )
           expect(assignments).to have_exactly(4).items
@@ -42,11 +43,11 @@ module Kafkat
       context 'not enough brokers to keep all replicas' do
         let(:topic_rep_factor_three) { FactoryBot.build(:topic_rep_factor_three) }
 
-        it 'should raise SystemExit' do
+        it 'raises SystemExit' do
           expect do
             drain.generate_assignments(
               broker_id,
-              {"topic_name" => topic_rep_factor_three},
+              { "topic_name" => topic_rep_factor_three },
               destination_broker_ids
             )
           end.to raise_error(SystemExit)
@@ -55,11 +56,12 @@ module Kafkat
 
       context 'one destination broker is empty' do
         let(:topic_with_one_empty_broker) { FactoryBot.build(:topic_with_one_empty_broker) }
-        it 'should not raise exception' do
+
+        it 'does not raise exception' do
           expect do
             drain.generate_assignments(
               broker_id,
-              {"topic_name" => topic_with_one_empty_broker},
+              { "topic_name" => topic_with_one_empty_broker },
               destination_broker_ids
             )
           end.not_to raise_error

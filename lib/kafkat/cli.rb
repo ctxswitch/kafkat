@@ -3,7 +3,7 @@
 module Kafkat
   class CLI
     attr_reader :config
-    MERGEABLE_ARGS = [:zk_path, :log_path, :kafka_path]
+    MERGEABLE_ARGS = [:zk_path, :log_path, :kafka_path].freeze
 
     def self.run!(args)
       new.run(args)
