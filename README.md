@@ -71,6 +71,7 @@ kafkat cluster restart
 kafkat topic alter reassign TOPIC
 kafkat topic alter replication-factor TOPIC
 kafkat topic create TOPIC
+kafkat topic delete TOPIC
 kafkat topic describe TOPIC
 kafkat topic elect TOPIC
 kafkat topic list
