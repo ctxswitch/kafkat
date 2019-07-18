@@ -34,7 +34,7 @@ module Kafkat
       def run
         topic_name = arguments.last
         all_brokers = zookeeper.brokers
-        topics = topic_name && zookeeper.topics([topic_name])
+        topics = topic_name && zookeeper.topics(names: [topic_name])
         topics ||= zookeeper.topics
 
         broker_ids = config[:brokers]&.split(',')&.map(&:to_i)

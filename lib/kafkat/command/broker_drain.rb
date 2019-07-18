@@ -35,7 +35,7 @@ module Kafkat
         end
 
         topic_name = config[:topic]
-        topics = topic_name && zookeeper.topics([topic_name])
+        topics = topic_name && zookeeper.topics(names: [topic_name])
         topics ||= zookeeper.topics
 
         destination_brokers = config[:brokers]&.split(',')&.map(&:to_i)
