@@ -51,8 +51,11 @@ module Kafkat
       @description ||= []
     end
 
-    def self.load!(force = false)
-      return true if @loaded && !force
+    def self.load!(force: false)
+      if @loaded && !force
+        return true
+      end
+
       files = Dir[File.expand_path('../command', __FILE__) + '/*.rb']
       files.each do |path|
         # set the stage for loading custom commands at runtime
@@ -129,7 +132,7 @@ module Kafkat
         puts
       end
 
-      def print_help_and_exit(exitcode = 0, category: nil)
+      def print_help_and_exit(exitcode, category: nil)
         puts "kafkat #{VERSION}: Simplified command-line administration for Kafka brokers\n\n"
         puts "#{opt_parser}\n"
         puts "Available subcommands: (for details, kafkat SUB-COMMAND --help)\n\n"
@@ -145,7 +148,7 @@ module Kafkat
         exit exitcode
       end
 
-      def print_error_and_exit(msg, exitcode = 0)
+      def print_error_and_exit(msg, exitcode: 1)
         puts "#{msg}\n"
         exit exitcode
       end

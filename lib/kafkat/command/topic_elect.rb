@@ -11,7 +11,7 @@ module Kafkat
         topic_name = arguments.last
         topic_names = topic_name && [topic_name]
 
-        topics = zookeeper.topics(topic_names)
+        topics = zookeeper.topics(names: topic_names)
         partitions = topics.values.map(&:partitions).flatten
 
         topics_s = topic_name ? "'#{topic_name}'" : 'all topics'

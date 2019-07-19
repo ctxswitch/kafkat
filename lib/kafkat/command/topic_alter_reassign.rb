@@ -24,7 +24,7 @@ module Kafkat
         topics = nil
         if topic_names
           topics_list = topic_names.split(',')
-          topics = zookeeper.topics(topics_list)
+          topics = zookeeper.topics(names: topics_list)
         end
         topics ||= zookeeper.topics
 
@@ -61,9 +61,11 @@ module Kafkat
           replica_shift = Random.rand(broker_count)
 
           t.partitions.each do |p|
-            replica_shift += 1 if p.id > 0 && p.id % broker_count == 0
-            first_replica_index = (p.id + start_index) % broker_count
+            if p.id > 0 && p.id % broker_count == 0
+              replica_shift += 1
+            end
 
+            first_replica_index = (p.id + start_index) % broker_count
             replicas = [broker_ids[first_replica_index]]
 
             (0...topic_replica_count - 1).each do |i|

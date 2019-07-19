@@ -41,13 +41,13 @@ module Kafkat
       subcommand.run
 
     rescue JSON::ParserError => e
-      subcommand.print_error_and_exit("Could not parse configuration file: #{e}", 1)
+      subcommand.print_error_and_exit("Could not parse configuration file: #{e}")
     rescue Mixlib::Config::UnknownConfigOptionError => e
-      subcommand.print_error_and_exit("Invalid configuration file: #{e}", 1)
+      subcommand.print_error_and_exit("Invalid configuration file: #{e}")
     rescue Kafkat::Config::ParseError => e
-      subcommand.print_error_and_exit(e, 1)
+      subcommand.print_error_and_exit(e)
     rescue Kafkat::Config::NotFoundError => e
-      subcommand.print_error_and_exit(e, 1)
+      subcommand.print_error_and_exit(e)
     rescue OptionParser::InvalidOption
       subcommand.print_help_and_exit(1, category: category_name)
     rescue OptionParser::MissingArgument

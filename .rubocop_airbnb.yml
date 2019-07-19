@@ -13,3 +13,6 @@ Layout/DotPosition:
   SupportedStyles:
   - leading
   - trailing
+
+Metrics/LineLength:
+  Max: 140

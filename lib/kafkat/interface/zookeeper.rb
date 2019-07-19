@@ -18,7 +18,7 @@ module Kafkat
         zk.children(brokers_path)
       end
 
-      def brokers(ids = nil)
+      def brokers
         brokers = {}
         ids ||= zk.children(brokers_path)
 
@@ -53,7 +53,7 @@ module Kafkat
         zk.children(topics_path)
       end
 
-      def topics(names = nil)
+      def topics(names: nil)
         error_msgs = {}
         topics = {}
 

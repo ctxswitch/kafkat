@@ -20,7 +20,7 @@ module Kafkat
         topic_names = topic_name && [topic_name]
 
         brokers = zookeeper.brokers
-        topics = zookeeper.topics(topic_names)
+        topics = zookeeper.topics(names: topic_names)
 
         print_partition_header
         topics.each do |_, t|

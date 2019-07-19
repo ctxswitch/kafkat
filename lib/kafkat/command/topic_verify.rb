@@ -56,7 +56,9 @@ module Kafkat
           t.partitions.each do |p|
             replica_size = p.replicas.length
 
-            next if broker && !p.replicas.include?(broker)
+            if broker && !p.replicas.include?(broker)
+              next
+            end
 
             partition_replica_size_stat[t.name][replica_size] ||= 0
             partition_replica_size_stat[t.name][replica_size] += 1
