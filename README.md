@@ -2,29 +2,16 @@
 [![Coverage Status](https://coveralls.io/repos/github/ctxswitch/kafkat/badge.svg?branch=master)](https://coveralls.io/github/ctxswitch/kafkat?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/7fb0ef80004b68e1373c/maintainability)](https://codeclimate.com/github/ctxswitch/kafkat/maintainability)
 
-kafkat
-======
+# KafkaT
 
-Simplified command-line administration for Kafka brokers.
-
-## Contact 
-**Let us know!** If you fork this, or if you use it, or if it helps in anyway, we'd love to hear from you! opensource@airbnb.com
-
-## License & Attributions
-This project is released under the Apache License Version 2.0 (APLv2).
-
-## How to release
-
-- update the version number in `lib/kafkat/version.rb`
-- execute `bundle exec rake release`
-
+Simplified command-line administration for Kafka brokers.  This is a fork of [kafkat](https://github.com/airbnb/kafkat) originally released by the amazing developers at [Airbnb](opensource@airbnb.com).  The project was largely abandoned, but it's usefulness lives on.
 
 ## Usage
 
 * Install the gem.
 
 ```
-gem install kafkat
+gem install kafkat-ctx
 ```
 
 * Create a new configuration file to match your deployment.
@@ -79,8 +66,16 @@ kafkat topic verify
   
 ```
 
-## Important Note
+***Note: Kafkat needs read/write access to the Kafka log directory for some operations (clean indexes).***
 
-The gem needs read/write access to the Kafka log directory for some operations (clean indexes).
+## How to contribute
 
+Contributions are always welcome.  Please see the [guide for contributing](CONTRIBUTING.md) that is included in the repository.
 
+## How to release
+
+* update the version number in `lib/kafkat/version.rb`
+* execute `bundle exec rake release`
+
+## License & Attributions
+This project is released under the Apache License Version 2.0 (APLv2).

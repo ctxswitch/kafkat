@@ -2,12 +2,12 @@ $LOAD_PATH.push File.expand_path('lib', __dir__)
 require 'kafkat/version'
 
 Gem::Specification.new do |s|
-  s.name         = 'kafkat'
+  s.name         = 'kafkat-ctx'
   s.version      = Kafkat::VERSION
   s.platform     = Gem::Platform::RUBY
-  s.authors      = ['Nelson Gauthier']
-  s.email        = ['nelson@airbnb.com']
-  s.homepage     = 'https://github.com/airbnb/kafkat'
+  s.authors      = ['Nelson Gauthier', 'Rob Lyon']
+  s.email        = ['rob@ctxswitch.com']
+  s.homepage     = 'https://github.com/ctxswitch/kafkat'
   s.summary      = 'Simplified command-line administration for Kafka brokers'
   s.description  = s.summary
   s.license      = 'Apache-v2'
